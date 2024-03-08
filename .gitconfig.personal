@@ -1,0 +1,9 @@
+[user]
+	name = sundy
+	email = 3445849+sundywy@users.noreply.github.com
+[pull]
+	rebase = false
+[core]
+	autocrlf = input
+[init]
+	defaultBranch = master

@@ -1,0 +1,15 @@
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/
+[user]
+	name = sundy
+	email = sundy_yaputra@ntucenterprise.sg
+[pull]
+	rebase = false
+[core]
+	autocrlf = input
+[init]
+	defaultBranch = master
+
+[includeIf "gitdir:~/Projects/"]
+	path = "~/.gitconfig.personal" 
+
