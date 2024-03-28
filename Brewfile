@@ -6,28 +6,27 @@ tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/services"
+tap "oven-sh/bun"
 tap "txn2/tap"
 tap "virtuslab/scala-cli"
 # New file format for still image compression
 brew "jpeg-xl"
-# Freely available high-quality data compressor
-brew "bzip2"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@3"
+# User-friendly launcher for Bazel
+brew "bazelisk"
 # Protocol buffers (Google's data interchange format)
 brew "protobuf"
 # Next generation open source RPC library and framework
 brew "grpc"
-# High-performance theorem prover
-brew "z3"
-# Next-gen compiler infrastructure
-brew "llvm"
-# User-friendly launcher for Bazel
-brew "bazelisk"
 # Generate compilation database for clang tooling
 brew "bear"
 # Collection of portable C++ source libraries
 brew "boost"
 # Format bazel BUILD files with a standard convention
 brew "buildifier"
+# Freely available high-quality data compressor
+brew "bzip2"
 # Core application library for C
 brew "glib"
 # Multi-platform, multi-architecture disassembly framework
@@ -62,6 +61,8 @@ brew "delve"
 brew "direnv"
 # Functional metaprogramming aware language built on Erlang VM
 brew "elixir"
+# Language Server and Debugger for Elixir
+brew "elixir-ls"
 # XML 1.0 parser
 brew "expat"
 # Command-line fuzzy finder written in Go
@@ -70,20 +71,16 @@ brew "fzf"
 brew "gcc"
 # GNU compiler collection
 brew "gcc@11"
-# GNU Transport Layer Security (TLS) Library
-brew "gnutls"
-# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
-brew "libheif"
 # Distributed revision control system
 brew "git"
+# GNU Transport Layer Security (TLS) Library
+brew "gnutls"
 # Framework for layout and rendering of i18n text
 brew "pango"
 # Command-driven, interactive function plotting
 brew "gnuplot"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.11"
 # Generate introspection data for GObject libraries
 brew "gobject-introspection"
 # Database migrations CLI tool
@@ -102,8 +99,8 @@ brew "helm"
 brew "htop"
 # User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.9"
+# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+brew "libheif"
 # Tools and libraries to manipulate images in many formats
 brew "imagemagick"
 # Dynamic language and bytecode vm
@@ -114,6 +111,10 @@ brew "jq"
 brew "just"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
+# High-performance theorem prover
+brew "z3"
+# Next-gen compiler infrastructure
+brew "llvm"
 # Portable D programming language compiler
 brew "ldc"
 # Build tool for Clojure
@@ -156,8 +157,6 @@ brew "pipx"
 brew "pnpm"
 # Object-relational database system
 brew "postgresql@14", restart_service: true
-# Adds support for geographic objects to PostgreSQL
-brew "postgis"
 # Object-relational database system
 brew "postgresql@15"
 # Go support for Google's protocol buffers
@@ -168,16 +167,16 @@ brew "protoc-gen-go-grpc"
 brew "pyenv"
 # Pyenv plugin to manage virtualenv
 brew "pyenv-virtualenv"
-# Cross-platform application and UI framework
-brew "qt@5"
 # Interpreted, interactive, object-oriented programming language
-brew "python@3.10"
+brew "python@3.11"
 # Install various Ruby versions and implementations
 brew "ruby-build"
 # Ruby version manager
 brew "rbenv"
 # Persistent key-value database, with built-in net interface
 brew "redis", restart_service: true
+# Rust toolchain installer
+brew "rustup-init"
 # Build tool for Scala projects
 brew "sbt"
 # Tool to create Python bindings for C and C++ libraries
@@ -190,8 +189,6 @@ brew "telnet"
 brew "terraform"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
-# Compress/expand executable files
-brew "upx"
 # C++ Library Manager
 brew "vcpkg"
 # Internet file retriever
@@ -208,18 +205,16 @@ brew "carlocab/personal/unrar"
 brew "clojure-lsp/brew/clojure-lsp-native"
 # Launcher for Coursier
 brew "coursier/formulas/coursier"
+# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+brew "oven-sh/bun/bun"
 # Kubernetes bulk port forwarding utility.
 brew "txn2/tap/kubefwd"
 # Launcher for ScalaCli
 brew "virtuslab/scala-cli/scala-cli"
-# Tools for building Android applications
-cask "android-studio"
-# Tool to flash OS images to SD cards & USB drives
-cask "balenaetcher"
+# GPU-accelerated terminal emulator
+cask "alacritty"
 # E-books management software
 cask "calibre"
-# Automated testing of webapps for Google Chrome
-cask "chromedriver"
 # DjVu viewer and browser plugin
 cask "djview"
 # App to build and share containerised applications and microservices
@@ -237,19 +232,25 @@ cask "graalvm-ce-java17"
 cask "graalvm-ce-java19"
 # Desktop automation application
 cask "hammerspoon"
-# Full TeX Live distribution without GUI applications
-cask "mactex-no-gui"
+# JetBrains tools manager
+cask "jetbrains-toolbox"
 # App to write, plan, collaborate, and get organised
 cask "notion"
+# Collaboration platform for API development
+cask "postman"
 # Modern programming language in the Lisp/Scheme family
 cask "racket"
-# Compiler for the Standard ML '97 programming language
-cask "smlnj"
+# Tool for sending personal documents to Kindles from Macs
+cask "send-to-kindle"
+# Music streaming service
+cask "spotify"
 # To-do list
 cask "todoist"
-# Code editor
-cask "visual-studio-code-insiders"
+# Native desktop client for WhatsApp
+cask "whatsapp"
 # Open-source version of the X.Org X Window System
 cask "xquartz"
 # Multiplayer code editor
 cask "zed"
+# Video communication and virtual meeting platform
+cask "zoom"

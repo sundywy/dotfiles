@@ -79,7 +79,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -101,11 +101,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export PATH=$(pyenv root)/shims:$PATH
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 export PATH=$HOME/.local/bin:$PATH
 
 export GOPRIVATE="bitbucket.org/ntuclink"
@@ -130,9 +125,9 @@ test -r /Users/sundyyaputra/.opam/opam-init/init.zsh && . /Users/sundyyaputra/.o
 export NODE_OPTIONS='--http-parser=legacy'
 
 export PATH=$HOME/.cargo/bin:$PATH
-export PATH=$(rbenv root)/shims:$PATH
+# export PATH=$(rbenv root)/shims:$PATH
 export PATH=/usr/local/smlnj/bin:$PATH
-export PATH=$(brew --prefix llvm)/bin:$PATH
+# export PATH=$(brew --prefix llvm)/bin:$PATH
 [ -f "/Users/sundyyaputra/.ghcup/env" ] && source "/Users/sundyyaputra/.ghcup/env" # ghcup-env
 export PATH="$PATH:/Users/sundyyaputra/.dotnet/tools"
 # export PATH="/opt/homebrew/opt/go@1.17/bin:$PATH"
@@ -152,9 +147,6 @@ export PATH="$PATH:/Users/sundyyaputra/Library/Application Support/Coursier/bin"
 
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.3.1/Contents/Home"
 
-export PATH="$HOME/.phpenv/bin:$PATH"
-eval "$(phpenv init -)"
-
 export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
 export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
@@ -165,7 +157,3 @@ export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-export ANDROID_HOME="$HOME/Library/Android/sdk"
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
