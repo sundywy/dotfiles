@@ -88,24 +88,20 @@
 ;;   :after tree-sitter)
 
 ;; (use-package eglot
-;;   :ensure t
-;;   :hook((c-mode
-;; 	 c++-mode
-;; 	 python-mode
+;;   :hook((
+;; 	 ;; c-mode
+;; 	 ;; c++-mode
+;; 	 ;; python-mode
 ;; 	 ruby-mode
-;; 	 haskell-mode
-;; 	 racket-mode
-;; 	 clojure-mode
-;; 	 rust-mode
-;; 	 go-mode
-;; 	 d-mode
-;; 	 cmake-mode
-;; 	 scala-mode) . eglot-ensure)
+;; 	 ;; rust-mode
+;; 	 ;; go-mode
+;; 	 elixir-mode
+;; 	 ;; cmake-mode
+;; 	 ;; zig-mode 
+;; 	 ) . eglot-ensure)
 ;;   :config
 ;;   (add-hook 'eglot-managed-mode-hook (lambda () (flymake-mode -1)))
-;;   ;; (add-to-list 'eglot-server-programs `(fsharp-mode . ("fsautocomplete")))
-;;   ;; (add-to-list 'eglot-server-programs `(haskell-mode . ("haskell-language-server-wrapper")))
-;;   (add-to-list 'eglot-server-programs `(d-mode . ("dub" "run" "--vquiet" "serve-d"))))
+;;   (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) "ruby-lsp")))
 
 (use-package jetbrains-darcula-theme
   :ensure t
@@ -125,7 +121,7 @@
   :ensure t
   :config
   (setq rustic-format-on-save t)
-  ;; (setq rustic-lsp-client 'eglot)
+  (setq rustic-lsp-client 'eglot)
   (setq rustic-lsp-server 'rust-analyzer))
 
 (use-package rainbow-delimiters
@@ -142,15 +138,13 @@
 (use-package racket-mode
   :ensure t)
 
-(use-package cmake-mode
-  :ensure t)
+;; (use-package cmake-mode
+;;   :ensure t)
 
 (use-package geiser
   :ensure t
   :config
   (use-package geiser-guile
-    :ensure t)
-  (use-package geiser-chicken
     :ensure t))
 
 (use-package cider
@@ -205,11 +199,11 @@
   (require 'haskell-process)
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode)
-  :config
-  (setq flycheck-python-flake8-executable "flake8"))
+;; (use-package flycheck
+;;   :ensure t
+;;   :init (global-flycheck-mode)
+;;   :config
+;;   (setq flycheck-python-flake8-executable "flake8"))
 
 (use-package editorconfig
   :ensure t
@@ -237,20 +231,20 @@
 (use-package projectile
   :ensure t)
 
-(when (executable-find "ipython")
-  (setq python-shell-interpreter "ipython"))
+;; (when (executable-find "ipython")
+;;   (setq python-shell-interpreter "ipython"))
 
-(use-package go-mode
-  :ensure t
-  :custom
-  (gofmt-command "goimports")
-  :hook (before-save . gofmt-before-save))
+;; (use-package go-mode
+;;   :ensure t
+;;   :custom
+;;   (gofmt-command "goimports")
+;;   :hook (before-save . gofmt-before-save))
 
-(use-package terraform-mode
-  :ensure t)
+;; (use-package terraform-mode
+;;   :ensure t)
 
-(use-package yaml-mode
-  :ensure t)
+;; (use-package yaml-mode
+;;   :ensure t)
 
 (use-package multiple-cursors
   :ensure t
@@ -261,20 +255,20 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
-(use-package bazel
-  :ensure t)
+;; (use-package bazel
+;;   :ensure t)
 
 (use-package magit
   :ensure t)
 
-(use-package company-dcd
-  :ensure t)
+;; (use-package company-dcd
+;;   :ensure t)
 
-(use-package d-mode
-  :ensure t
-  :config
-  (require 'company-dcd)
-  (add-hook 'd-mode-hook 'company-dcd-mode))
+;; (use-package d-mode
+;;   :ensure t
+;;   :config
+;;   (require 'company-dcd)
+;;   (add-hook 'd-mode-hook 'company-dcd-mode))
 
 (use-package js2-mode
   :ensure t
@@ -303,31 +297,34 @@
   :after (web-mode)
   :hook (web-mode . emmet-mode))
 
-(use-package scala-mode
-  :ensure t 
-  :interpreter ("scala" . scala-mode))
+;; (use-package scala-mode
+;;   :ensure t 
+;;   :interpreter ("scala" . scala-mode))
 
-;; Enable sbt mode for executing sbt commands
-(use-package sbt-mode
-  :ensure t
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-  (setq sbt:program-options '("-Dsbt.supershell=false")))
+;; ;; Enable sbt mode for executing sbt commands
+;; (use-package sbt-mode
+;;   :ensure t
+;;   :commands sbt-start sbt-command
+;;   :config
+;;   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+;;   ;; allows using SPACE when in the minibuffer
+;;   (substitute-key-definition
+;;    'minibuffer-complete-word
+;;    'self-insert-command
+;;    minibuffer-local-completion-map)
+;;    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+;;   (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 (use-package format-all
   :ensure t)
 
-(use-package janet-mode
-  :ensure t)
+;; (use-package janet-mode
+;;   :ensure t)
 
-(use-package lua-mode
+;; (use-package lua-mode
+;;   :ensure t)
+
+(use-package elixir-mode
   :ensure t)
 
 ;; (use-package clang-format+
@@ -349,6 +346,12 @@
 ;;   :custom
 ;;   (rubocopfmt-include-unsafe-cops t))
 
+(use-package zig-mode
+  :ensure t)
+
+(use-package php-mode
+  :ensure t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -362,89 +365,100 @@
      ((:application tramp :machine "R77-NB274.local")
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp)
-      tramp-connection-local-default-system-profile tramp-connection-local-default-shell-profile)))
+      tramp-connection-local-default-system-profile
+      tramp-connection-local-default-shell-profile)))
  '(connection-local-profile-alist
    '((tramp-container-connection-local-default-flatpak-profile
-      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin"))
+      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin"
+			 "/usr/bin" "/sbin" "/usr/sbin"
+			 "/usr/local/bin" "/usr/local/sbin"
+			 "/local/bin" "/local/freeware/bin"
+			 "/local/gnu/bin" "/usr/freeware/bin"
+			 "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin"
+			 "/opt/sbin" "/opt/local/bin"))
      (tramp-connection-local-darwin-ps-profile
-      (tramp-process-attributes-ps-args "-acxww" "-o" "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state=abcde" "-o" "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (euid . number)
-       (user . string)
-       (egid . number)
-       (comm . 52)
-       (state . 5)
-       (ppid . number)
-       (pgrp . number)
-       (sess . number)
-       (ttname . string)
-       (tpgid . number)
-       (minflt . number)
-       (majflt . number)
-       (time . tramp-ps-time)
-       (pri . number)
-       (nice . number)
-       (vsize . number)
-       (rss . number)
-       (etime . tramp-ps-time)
-       (pcpu . number)
-       (pmem . number)
-       (args)))
+      (tramp-process-attributes-ps-args "-acxww" "-o"
+					"pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+					"-o" "state=abcde" "-o"
+					"ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
+      (tramp-process-attributes-ps-format (pid . number)
+					  (euid . number)
+					  (user . string)
+					  (egid . number) (comm . 52)
+					  (state . 5) (ppid . number)
+					  (pgrp . number)
+					  (sess . number)
+					  (ttname . string)
+					  (tpgid . number)
+					  (minflt . number)
+					  (majflt . number)
+					  (time . tramp-ps-time)
+					  (pri . number)
+					  (nice . number)
+					  (vsize . number)
+					  (rss . number)
+					  (etime . tramp-ps-time)
+					  (pcpu . number)
+					  (pmem . number) (args)))
      (tramp-connection-local-busybox-ps-profile
-      (tramp-process-attributes-ps-args "-o" "pid,user,group,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "stat=abcde" "-o" "ppid,pgid,tty,time,nice,etime,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (user . string)
-       (group . string)
-       (comm . 52)
-       (state . 5)
-       (ppid . number)
-       (pgrp . number)
-       (ttname . string)
-       (time . tramp-ps-time)
-       (nice . number)
-       (etime . tramp-ps-time)
-       (args)))
+      (tramp-process-attributes-ps-args "-o"
+					"pid,user,group,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+					"-o" "stat=abcde" "-o"
+					"ppid,pgid,tty,time,nice,etime,args")
+      (tramp-process-attributes-ps-format (pid . number)
+					  (user . string)
+					  (group . string) (comm . 52)
+					  (state . 5) (ppid . number)
+					  (pgrp . number)
+					  (ttname . string)
+					  (time . tramp-ps-time)
+					  (nice . number)
+					  (etime . tramp-ps-time)
+					  (args)))
      (tramp-connection-local-bsd-ps-profile
-      (tramp-process-attributes-ps-args "-acxww" "-o" "pid,euid,user,egid,egroup,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state,ppid,pgid,sid,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etimes,pcpu,pmem,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (euid . number)
-       (user . string)
-       (egid . number)
-       (group . string)
-       (comm . 52)
-       (state . string)
-       (ppid . number)
-       (pgrp . number)
-       (sess . number)
-       (ttname . string)
-       (tpgid . number)
-       (minflt . number)
-       (majflt . number)
-       (time . tramp-ps-time)
-       (pri . number)
-       (nice . number)
-       (vsize . number)
-       (rss . number)
-       (etime . number)
-       (pcpu . number)
-       (pmem . number)
-       (args)))
+      (tramp-process-attributes-ps-args "-acxww" "-o"
+					"pid,euid,user,egid,egroup,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+					"-o"
+					"state,ppid,pgid,sid,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etimes,pcpu,pmem,args")
+      (tramp-process-attributes-ps-format (pid . number)
+					  (euid . number)
+					  (user . string)
+					  (egid . number)
+					  (group . string) (comm . 52)
+					  (state . string)
+					  (ppid . number)
+					  (pgrp . number)
+					  (sess . number)
+					  (ttname . string)
+					  (tpgid . number)
+					  (minflt . number)
+					  (majflt . number)
+					  (time . tramp-ps-time)
+					  (pri . number)
+					  (nice . number)
+					  (vsize . number)
+					  (rss . number)
+					  (etime . number)
+					  (pcpu . number)
+					  (pmem . number) (args)))
      (tramp-connection-local-default-shell-profile
-      (shell-file-name . "/bin/sh")
-      (shell-command-switch . "-c"))
+      (shell-file-name . "/bin/sh") (shell-command-switch . "-c"))
      (tramp-connection-local-default-system-profile
-      (path-separator . ":")
-      (null-device . "/dev/null"))))
+      (path-separator . ":") (null-device . "/dev/null"))))
  '(custom-safe-themes
-   '("5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
+   '("5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0"
+     default))
  '(package-archives
    '(("melpa" . "https://melpa.org/packages/")
      ("gnu" . "https://elpa.gnu.org/packages/")))
  '(package-selected-packages
-   '(tree-sitter-langs tree-sitter lua-mode janet-mode format-all sbt-mode scala-mode rubocopfmt emmet-mode python-black eglot d-mode company-dcd js2-mode magit bazel yaml-mode terraform-mode go-mode projectile projectile-mode web-mode editorconfig flycheck dune haskell-mode merlin-iedit merlin-company merlin utop ocamlformat tuareg yasnippet-snippets yasnippet company-irony-c-headers company-irony irony company-clang-mode company-clang cider geiser-guile geiser nix racket-mode racket nix-mode cmake-mode rainbow-identifiers rainbow-delimiters rustic slime-company slime jetbrains-darcula-theme darcula-theme smartparens iedit company-box company counsel use-package))
+   '(cider counsel dune editorconfig eglot elixir-mode emmet-mode
+	   flycheck format-all geiser-guile haskell-mode
+	   jetbrains-darcula-theme js2-mode magit merlin-company
+	   merlin-iedit multiple-cursors nix-mode ocamlformat php-mode
+	   projectile python-black racket-mode rainbow-delimiters
+	   rainbow-identifiers rustic s slime-company smartparens utop
+	   web-mode xterm-color yaml-mode yasnippet-snippets zig-mode))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 (custom-set-faces
