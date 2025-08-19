@@ -177,3 +177,8 @@ export PATH="$HOME/.cabal/bin:$HOME/.ghcup/bin:$PATH"
 
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
+export PATH="$HOME/.pack/bin:$PATH"
+export PATH="$HOME/ols:$PATH"
+export PATH="$HOME/.elan/bin:$PATH"
+
+export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
