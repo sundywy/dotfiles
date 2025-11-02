@@ -182,3 +182,4 @@ export PATH="$HOME/ols:$PATH"
 export PATH="$HOME/.elan/bin:$PATH"
 
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+export GOOGLE_CLOUD_PROJECT="fpg-titan-prod"

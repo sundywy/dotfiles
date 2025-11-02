@@ -319,9 +319,10 @@
   :after (web-mode)
   :hook ((web-mode tsx-ts-mode) . emmet-mode))
 
-;; (use-package scala-mode
-;;   :ensure t 
-;;   :interpreter ("scala" . scala-mode))
+(use-package scala-mode
+  :ensure t 
+  :interpreter ("scala" . scala-mode)
+  :hook (scala-mode . tree-sitter-hl-mode))
 
 ;; ;; Enable sbt mode for executing sbt commands
 ;; (use-package sbt-mode
@@ -340,9 +341,11 @@
 (use-package format-all
   :ensure t
   :hook ((ruby-ts-mode . format-all-mode)
-         (ruby-ts-mode . format-all-ensure-formatter))
+         (ruby-ts-mode . format-all-ensure-formatter)
+	 (python-ts-mode . format-all-mode)
+	 (python-ts-mode . format-all-ensure-formatter))
   :config
-  (setq format-all-formatters '(("Ruby" standardrb))))
+  (setq format-all-formatters '(("Ruby" standardrb) ("Python" ruff))))
 
 ;; (add-hook 'before-save-hook #'my/format-svelte-ts)
 
@@ -488,10 +491,10 @@
 	       multiple-cursors nasm-mode nix-mode ocamlformat
 	       odin-mode php-mode projectile python-black racket-mode
 	       rainbow-delimiters rainbow-identifiers realgud-lldb
-	       reason-mode rustic s scala-ts-mode slime-company
-	       smartparens sml-mode toml tree-sitter tree-sitter-langs
-	       treesit-auto utop web-mode xterm-color yaml-mode
-	       yasnippet-snippets zig-mode))
+	       reason-mode rustic s scala-mode scala-ts-mode
+	       slime-company smartparens sml-mode toml tree-sitter
+	       tree-sitter-langs treesit-auto utop uv-mode web-mode
+	       xterm-color yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
    '((lean4-mode :url
 		 "https://github.com/leanprover-community/lean4-mode.git")))
@@ -544,7 +547,8 @@
 	(css "https://github.com/tree-sitter/tree-sitter-css")
 	(json "https://github.com/tree-sitter/tree-sitter-json")
 	(vue "https://github.com/ikatyang/tree-sitter-vue")
-	(elixir "https://github.com/elixir-lang/tree-sitter-elixir")))
+	(elixir "https://github.com/elixir-lang/tree-sitter-elixir")
+	(cmake "https://github.com/uyha/tree-sitter-cmake")))
 
 (add-to-list 'load-path "~/.emacs.d/c3-ts-mode")
 (require 'c3-ts-mode)
@@ -664,3 +668,7 @@
   :after fsharp-mode
   :config
   (setq eglot-fsharp-server-install-dir nil))
+
+(use-package uv-mode
+  :ensure t
+  :hook (python-ts-mode . uv-mode-auto-activate-hook))
