@@ -109,7 +109,7 @@
   ;; 	 ) . eglot-ensure)
   :config
   ;; (add-hook 'eglot-managed-mode-hook (lambda () (flymake-mode -1)))
-  ;; (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ruff" "server")))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ty" "server")))
   (add-to-list 'eglot-server-programs '((ruby-mode ruby-ts-mode) . ("ruby-lsp")))
   (add-to-list 'eglot-server-programs '(d-mode . ("serve-d")))
   (add-to-list 'eglot-server-programs '((php-mode php-ts-mode web-mode) .
@@ -120,7 +120,10 @@
   (add-to-list 'eglot-server-programs '(c3-ts-mode . ("c3lsp")))
   (add-to-list 'eglot-server-programs '((elixir-mode elixir-ts-mode) . ("elixir-ls")))
   (add-to-list 'eglot-server-programs '(sml-mode . ("millet-ls")))
-  (add-to-list 'eglot-server-programs '(vue-ts-mode . ("bunx" "vue-language-server" "--stdio"))))
+  (add-to-list 'eglot-server-programs '(vue-ts-mode . ("bunx" "vue-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '((svelte-mode svelte-ts-mode) . ("svelteserver" "--stdio")))
+  (add-to-list 'eglot-server-programs '((haskell-mode haskell-ts-mode) . ("haskell-language-server-wrapper")))
+  (add-to-list 'eglot-server-programs '((v-mode) . ("vls"))))
 
 (use-package jetbrains-darcula-theme
   :ensure t
@@ -220,6 +223,13 @@
   (require 'haskell-interactive-mode)
   (require 'haskell-process)
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
+
+(use-package lsp-haskell
+  :ensure t
+  :config
+   (setq lsp-haskell-server-path "haskell-language-server-wrapper")
+   (setq lsp-haskell-server-args ())
+   (setq lsp-log-io t))
 
 ;; (use-package flycheck
 ;;   :ensure t
@@ -343,9 +353,19 @@
   :hook ((ruby-ts-mode . format-all-mode)
          (ruby-ts-mode . format-all-ensure-formatter)
 	 (python-ts-mode . format-all-mode)
-	 (python-ts-mode . format-all-ensure-formatter))
+	 (python-ts-mode . format-all-ensure-formatter)
+	 (typescript-ts-mode . format-all-mode)
+	 (typescript-ts-mode . format-all-ensure-formatter)
+	 (js-ts-mode . format-all-mode)
+	 (js-ts-mode . format-all-ensure-formatter)
+	 (tsx-ts-mode . format-all-mode)
+	 (tsx-ts-mode . format-all-ensure-formatter))
   :config
-  (setq format-all-formatters '(("Ruby" standardrb) ("Python" ruff))))
+  (setq format-all-formatters
+	'(("Ruby" (standardrb))
+	  ("Python" (ruff))
+	  ("Typescript" (prettier))
+	  ("Javascript" (prettier))))) 
 
 ;; (add-hook 'before-save-hook #'my/format-svelte-ts)
 
@@ -482,18 +502,19 @@
      ("gnu" . "https://elpa.gnu.org/packages/")
      ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
  '(package-selected-packages
-   '(alchemist c3-mode cider company-dcd counsel d-mode dune editorconfig
-	       eglot eglot-fsharp elixir-mode emmet-mode flix-mode
-	       flycheck flymake-haskell-multi format-all fsharp-mode
-	       geiser-guile haskell-mode haskell-ts-mode
+   '(alchemist c3-mode cabal-mode cider company-dcd counsel d-mode dune
+	       editorconfig eglot eglot-fsharp elixir-mode emmet-mode
+	       ess flix-mode flycheck flymake-haskell-multi format-all
+	       fsharp-mode geiser-guile haskell-mode haskell-ts-mode
 	       jetbrains-darcula-theme js2-mode kotlin-ts-mode
-	       lean4-mode lsp-mode magit merlin-company merlin-iedit
-	       multiple-cursors nasm-mode nix-mode ocamlformat
-	       odin-mode php-mode projectile python-black racket-mode
-	       rainbow-delimiters rainbow-identifiers realgud-lldb
-	       reason-mode rustic s scala-mode scala-ts-mode
-	       slime-company smartparens sml-mode toml tree-sitter
-	       tree-sitter-langs treesit-auto utop uv-mode web-mode
+	       lean4-mode lsp-haskell lsp-mode magit merlin-company
+	       merlin-iedit multiple-cursors nasm-mode nix-mode
+	       ocamlformat odin-mode php-mode projectile python-black
+	       racket-mode rainbow-delimiters rainbow-identifiers
+	       realgud-lldb reason-mode rustic s scala-mode
+	       scala-ts-mode slime-company smartparens sml-mode
+	       svelte-mode toml tree-sitter tree-sitter-langs
+	       treesit-auto utop uv-mode v-mode vue-mode web-mode
 	       xterm-color yaml-mode yasnippet-snippets zig-mode))
  '(package-vc-selected-packages
    '((lean4-mode :url
@@ -601,7 +622,10 @@
 (use-package lsp-mode
   :ensure t
   :hook ((lsp-mode . lsp-diagnostics-mode)
-         (lsp-mode . lsp-enable-which-key-integration)))
+         (lsp-mode . lsp-enable-which-key-integration)
+	 ((tsx-ts-mode
+	   typescript-ts-mode
+	   js-ts-mode) . lsp-deferred)))
 
 (add-to-list 'load-path "~/.emacs.d/lsp-tailwindcss")
 
@@ -672,3 +696,18 @@
 (use-package uv-mode
   :ensure t
   :hook (python-ts-mode . uv-mode-auto-activate-hook))
+
+(use-package svelte-mode 
+  :ensure t
+  :mode ("\\.\\(svelte\\)\\'" . svelte-mode))
+
+(use-package vue-mode 
+  :ensure t)
+
+(use-package ess
+  :ensure t)
+
+(use-package v-mode
+  :ensure t
+  :config
+  :mode ("\\(\\.v?v\\|\\.vsh\\)$" . 'v-mode))

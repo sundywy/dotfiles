@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+# plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -183,3 +183,7 @@ export PATH="$HOME/.elan/bin:$PATH"
 
 export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 export GOOGLE_CLOUD_PROJECT="fpg-titan-prod"
+# export GEMINI_API_KEY="AIzaSyBYJbiC4NLVM2XhDA0z3a3qxie3v5Yw0Lc"
+
+# Added by Antigravity
+export PATH="/Users/sundyyaputra/.antigravity/antigravity/bin:$PATH"
