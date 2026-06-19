@@ -100,7 +100,6 @@ export LANG=en_US.UTF-8
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH=$(pyenv root)/shims:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
 export GOPRIVATE="bitbucket.org/ntuclink"
@@ -150,9 +149,6 @@ export PATH="$PATH:/Users/sundyyaputra/Library/Application Support/Coursier/bin"
 
 # export JAVA_HOME="/Library/Java/JavaVirtualMachines/graalvm-community-openjdk-22/Contents/Home"
 
-
-export PATH="$HOME/.nodenv/bin:$PATH"
-eval "$(nodenv init -)"
 export PATH="/opt/homebrew/opt/bzip2/bin:$PATH"
 
 # bun completions
@@ -187,3 +183,6 @@ export GOOGLE_CLOUD_PROJECT="fpg-titan-prod"
 
 # Added by Antigravity
 export PATH="/Users/sundyyaputra/.antigravity/antigravity/bin:$PATH"
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"

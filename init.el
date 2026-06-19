@@ -1,6 +1,6 @@
 (require 'package)
 
-(set-frame-font "Hack-16")
+(set-frame-font "Hack-18")
 
 (setq inhibit-startup-screen t)
 (global-display-line-numbers-mode t)
@@ -60,7 +60,7 @@
   (company-idle-delay 0.0)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 3)
-  (global-company-mode t))
+  (global-company-mode nil))
 
 (use-package iedit
   :ensure t)
@@ -123,7 +123,9 @@
   (add-to-list 'eglot-server-programs '(vue-ts-mode . ("bunx" "vue-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '((svelte-mode svelte-ts-mode) . ("svelteserver" "--stdio")))
   (add-to-list 'eglot-server-programs '((haskell-mode haskell-ts-mode) . ("haskell-language-server-wrapper")))
-  (add-to-list 'eglot-server-programs '((v-mode) . ("vls"))))
+  (add-to-list 'eglot-server-programs '((v-mode) . ("vls")))
+  (add-to-list 'eglot-server-programs '((kotlin-mode kotlin-ts-mode) . ("kotlin-language-server")))
+  (add-to-list 'eglot-server-programs '((f90-mode fortran-mode) . ("fortls"))))
 
 (use-package jetbrains-darcula-theme
   :ensure t
@@ -144,13 +146,13 @@
   :init
   (setq rust-mode-treesitter-derive t))
 
-(use-package rustic
-  :ensure t
-  :after (rust-mode)
-  :config
-  (setq rustic-format-on-save t)
-  (setq rustic-lsp-client 'eglot)
-  (setq rustic-lsp-server 'rust-analyzer))
+;; (use-package rustic
+;;   :ensure t
+;;   :after (rust-mode)
+;;   :config
+;;   (setq rustic-format-on-save t)
+;;   (setq rustic-lsp-client 'eglot)
+;;   (setq rustic-lsp-server 'rust-analyzer))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -351,21 +353,27 @@
 (use-package format-all
   :ensure t
   :hook ((ruby-ts-mode . format-all-mode)
-         (ruby-ts-mode . format-all-ensure-formatter)
-	 (python-ts-mode . format-all-mode)
-	 (python-ts-mode . format-all-ensure-formatter)
 	 (typescript-ts-mode . format-all-mode)
-	 (typescript-ts-mode . format-all-ensure-formatter)
 	 (js-ts-mode . format-all-mode)
-	 (js-ts-mode . format-all-ensure-formatter)
 	 (tsx-ts-mode . format-all-mode)
-	 (tsx-ts-mode . format-all-ensure-formatter))
+	 (c-ts-mode . format-all-mode)
+	 (c++-ts-mode . format-all-mode)
+	 (go-ts-mode . format-all-mode)
+	 (java-ts-mode . format-all-mode)
+	 (python-ts-mode . format-all-mode)
+	 (python-mode . format-all-mode)
+	 (rust-ts-mode . format-all-mode)
+	 (format-all-mode . format-all-ensure-formatter))
   :config
   (setq format-all-formatters
 	'(("Ruby" (standardrb))
-	  ("Python" (ruff))
 	  ("Typescript" (prettier))
-	  ("Javascript" (prettier))))) 
+	  ("Javascript" (prettier))
+	  ("C" (clang-format))
+	  ("C++" (clang-format))
+	  ("Go" (goimports))
+	  ("Python" (ruff))
+	  ("Java" (google-java-format)))))
 
 ;; (add-hook 'before-save-hook #'my/format-svelte-ts)
 
@@ -375,13 +383,32 @@
 ;; (use-package lua-mode
 ;;   :ensure t)
 
-;; (use-package apheleia
-;;   :ensure t
-;;   :config
-;;   (add-to-list 'apheleia-formatters
-;;                '(standardrb . ("standardrb" "--fix" "--format" "quiet" "--stderr" filepath)))  
-;;   (add-to-list 'apheleia-mode-alist '(ruby-mode . standardrb))
-;;   (add-to-list 'apheleia-mode-alist '(ruby-ts-mode . standardrb)))
+(use-package apheleia
+  :ensure t
+  :config
+  (setf (alist-get 'ktfmt apheleia-formatters)
+        '("ktfmt" "--kotlinlang-style" "-"))
+  (setf (alist-get 'php-cs-fixer apheleia-formatters)
+	'("php-cs-fixer"
+          "fix"
+          "--using-cache=no"
+          "--quiet"
+          filepath))
+  (setf (alist-get 'c3fmt apheleia-formatters) '("c3fmt" filepath))
+  ;; (setf (alist-get 'ruff apheleia-formatters) '("ruff" "server"))
+
+  (setf (alist-get 'kotlin-ts-mode apheleia-mode-alist)
+        'ktfmt)
+  (setf (alist-get 'php-ts-mode apheleia-mode-alist)
+	'php-cs-fixer)
+  (setf (alist-get 'c3-ts-mode apheleia-mode-alist)
+	'c3fmt)
+  ;; (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
+  (setq apheleia-log-debug-info t)
+  :hook
+  (kotlin-ts-mode . apheleia-mode)
+  (php-ts-mode . apheleia-mode)
+  (c3-ts-mode . apheleia-mode))
 
 (use-package elixir-mode
   :ensure t)
@@ -502,20 +529,20 @@
      ("gnu" . "https://elpa.gnu.org/packages/")
      ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
  '(package-selected-packages
-   '(alchemist c3-mode cabal-mode cider company-dcd counsel d-mode dune
-	       editorconfig eglot eglot-fsharp elixir-mode emmet-mode
-	       ess flix-mode flycheck flymake-haskell-multi format-all
-	       fsharp-mode geiser-guile haskell-mode haskell-ts-mode
-	       jetbrains-darcula-theme js2-mode kotlin-ts-mode
-	       lean4-mode lsp-haskell lsp-mode magit merlin-company
-	       merlin-iedit multiple-cursors nasm-mode nix-mode
-	       ocamlformat odin-mode php-mode projectile python-black
+   '(alchemist apheleia cabal-mode cider company-dcd corfu counsel d-mode
+	       dune editorconfig eglot-fsharp emmet-mode ess
+	       flymake-haskell-multi format-all geiser-guile
+	       haskell-mode haskell-ts-mode jetbrains-darcula-theme
+	       js2-mode kotlin-mode kotlin-ts-mode lean4-mode
+	       lsp-haskell magit merlin-company merlin-iedit
+	       meson-mode multiple-cursors nasm-mode nix-mode
+	       ocamlformat php-mode projectile python-black
 	       racket-mode rainbow-delimiters rainbow-identifiers
-	       realgud-lldb reason-mode rustic s scala-mode
-	       scala-ts-mode slime-company smartparens sml-mode
-	       svelte-mode toml tree-sitter tree-sitter-langs
-	       treesit-auto utop uv-mode v-mode vue-mode web-mode
-	       xterm-color yaml-mode yasnippet-snippets zig-mode))
+	       realgud-lldb reason-mode scala-mode scala-ts-mode
+	       slime-company smartparens sml-mode svelte-mode toml
+	       tree-sitter-langs treesit-auto tuareg utop uv-mode
+	       v-mode vue-mode web-mode yaml-mode yasnippet-snippets
+	       zig-mode))
  '(package-vc-selected-packages
    '((lean4-mode :url
 		 "https://github.com/leanprover-community/lean4-mode.git")))
@@ -587,6 +614,9 @@
 (use-package kotlin-ts-mode
   :ensure t)
 
+(use-package kotlin-mode
+  :ensure t)
+
 (use-package scala-ts-mode
   :ensure t)
 
@@ -608,6 +638,10 @@
 (add-to-list 'major-mode-remap-alist '(odin-mode . odin-ts-mode))
 (add-to-list 'major-mode-remap-alist '(zig-mode . zig-ts-mode))
 (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
+(add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode))
+(add-to-list 'major-mode-remap-alist '(kotlin-mode . kotlin-ts-mode))
+(add-to-list 'major-mode-remap-alist '(java-mode . java-ts-mode))
+
 
 (add-to-list 'load-path "~/.emacs.d/svelte-ts-mode")
 (require 'svelte-ts-mode)
@@ -711,3 +745,14 @@
   :ensure t
   :config
   :mode ("\\(\\.v?v\\|\\.vsh\\)$" . 'v-mode))
+
+(use-package meson-mode
+  :ensure t)
+
+(use-package corfu
+  :init
+  (global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 1))
